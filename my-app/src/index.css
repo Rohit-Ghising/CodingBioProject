@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* In index.css or a global css file */
+.rolling-ball {
+  position: absolute;
+  top: 0;
+  left: 0;
+  offset-path: path('M100 0 C 300 0, 300 200, 180 300 Q 100 400, 100 600');
+  offset-distance: 0%;
+  transform: translate(-50%, -50%);
+}
