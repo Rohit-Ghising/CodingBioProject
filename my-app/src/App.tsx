@@ -1,6 +1,8 @@
 
 import BioTeamComponent from "./components/BioTeamComponent";
+import ContactComponent from "./components/ContactComponent";
 import FirstComponent from "./components/FirstComponent";
+import PositionComponent from "./components/PositionComponent";
 import SecondComponent from "./components/SecondComponent";
 import ThirdComponent from "./components/ThirdComponent";
 
@@ -12,6 +14,8 @@ export default function App() {
       <SecondComponent/>
       <ThirdComponent/>
       <BioTeamComponent/>
+      <PositionComponent/>
+      <ContactComponent/>
     
     </div>
   )

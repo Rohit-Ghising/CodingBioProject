@@ -7,7 +7,9 @@ import img3 from "../assets/shirtman.webp"
   function BioTeamComponent() {
     return ( 
       <div className="w-full">
+        
       <div className="w-10/12 mx-auto gap-8 mt-16 p-2">
+      <div><h1 className="flex items-center justify-center  text-4xl m-4 ">Meet the Coding Bio team</h1></div>
 
       <div className="flex p-4">
 
