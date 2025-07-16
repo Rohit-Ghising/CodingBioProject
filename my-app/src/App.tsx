@@ -1,4 +1,5 @@
 
+import BioTeamComponent from "./components/BioTeamComponent";
 import FirstComponent from "./components/FirstComponent";
 import SecondComponent from "./components/SecondComponent";
 import ThirdComponent from "./components/ThirdComponent";
@@ -10,6 +11,7 @@ export default function App() {
       <FirstComponent/>
       <SecondComponent/>
       <ThirdComponent/>
+      <BioTeamComponent/>
     
     </div>
   )
