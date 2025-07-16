@@ -1,6 +1,7 @@
 
 import FirstComponent from "./components/FirstComponent";
 import SecondComponent from "./components/SecondComponent";
+import ThirdComponent from "./components/ThirdComponent";
 
 
 export default function App() {
@@ -8,6 +9,7 @@ export default function App() {
     <div >
       <FirstComponent/>
       <SecondComponent/>
+      <ThirdComponent/>
     
     </div>
   )
