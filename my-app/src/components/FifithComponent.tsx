@@ -1,7 +1,53 @@
-import { useEffect, useRef, useState } from "react";
-import imagew from "../assets/662f014c68d91cb1dc3cced7_throughput-1-p-800.png";
+// import imagew from "../assets/component5.png";
 
-export default function ThirdComponent() {
+// export default function FifthComponent() {
+//   return (
+//     <div className="w-full">
+//       <div className="w-10/12 mx-auto gap-8 mt-0 p-2 pt-0">
+//         <div className="p-4 pt-0">
+//           {/* items - reversed order */}
+//           <div className="flex p-2 pt-0">
+//             {/* Image Section - now on left */}
+//             <div className="w-[40%] p-4 pt-0">
+//               <img
+//                 src={imagew}
+//                 alt="Throughput Illustration"
+//                 className="w-full h-auto mt-4"
+//               />
+//             </div>
+
+//             {/* SVG Line in Center */}
+//             <div className="w-[20%] p-4 flex justify-center pt-0 items-center">
+//               <svg width="2" height="400">
+//                 <path
+//                   d="M1 0 V400 A60,60 0 0 1 150,70 H 40"
+//                   stroke="black"
+//                   strokeWidth="2"
+//                   fill="none"
+//                 />
+//               </svg>
+//             </div>
+
+//             {/* Text Section - now on right */}
+//             <div className="w-[40%] pt-16 px-4 text-xl pb-32">
+//               <p>
+//                 Our ML platform analyzes protein <br />
+//                 structures to find patterns impacting the <br />
+//                 quality of therapies, then iterates across <br />
+//                 designs to maximize performance.
+//               </p>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+import { useEffect, useRef, useState } from "react";
+import imagew from "../assets/component5.png";
+
+export default function FifithComponent() {
   const pathRef = useRef(null);
   const circleRef = useRef(null);
   const svgContainerRef = useRef(null);
@@ -36,13 +82,13 @@ export default function ThirdComponent() {
   }, [pathLength]);
 
   return (
-    <div className="w-full mt-0 pb-0">
+    <div className="w-full mt-0 pt-0">
       <div
-        className="w-10/12 mx-auto gap-8 mt-16 p-2 pb-0"
+        className="w-10/12 mx-auto gap-8 mt-16 p-2 pt-0"
         ref={svgContainerRef}
       >
-        <div className="p-4 pb-0">
-          <div className="flex p-2 pb-0">
+        <div className="p-4 pt-0">
+          <div className="flex p-2 pt-0">
             {/* Left Text Section */}
             <div className="w-[40%] pt-16 px-4 text-xl pb-32">
               <p>
@@ -54,7 +100,7 @@ export default function ThirdComponent() {
             </div>
 
             {/* SVG Line and Circle in Center */}
-            <div className="w-[20%] p-4 pb-0 flex justify-center items-center">
+            <div className="w-[20%] p-4 pt-0 flex justify-center items-center">
               <svg width="2" height="400" style={{ overflow: "visible" }}>
                 <path
                   d="M1 0 V400"

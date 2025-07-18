@@ -13,9 +13,9 @@ export default function Footer() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="w-10/12 mx-auto gap-8 mt-16 pb-8 px-12 pt-36 ppb8">
+      <div className="w-10/12 mx-auto gap-8 mt-16 pb-8 px-12 pt-36 ">
         <div className="px-80 w-fit ">
-          <div className="text-xl m-12 pt-0 ">
+          <div className="text-xl m-8 pt-0 ">
             <h1 className="m-4 ">
               Things move quickly at Coding Bio – subscribe to <br /> follow
               along
@@ -37,7 +37,7 @@ export default function Footer() {
             </form>
           </div>
 
-          <div className="flex text-xs ">
+          <div className="flex text-xs mt-36">
             <p className="flex-1 mx-4">
               © 2024 Coding Bio. All rights <br /> reserved.
             </p>
