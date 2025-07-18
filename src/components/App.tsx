@@ -37,3 +37,5 @@
        <LastLine />
  
        <BioTeamComponent />
+   )
+ }
