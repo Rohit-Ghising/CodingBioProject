@@ -1,48 +1,58 @@
-@@ .. @@
-   useEffect(() => {
-     const handleScroll = () => {
-       if (svgRef.current && circleRef.current && pathRef.current) {
-         const svgElement = svgRef.current;
-         const circleElement = circleRef.current;
-         const pathElement = pathRef.current;
- 
--        // Get the bounding box of the SVG element
-         const svgRect = svgElement.getBoundingClientRect();
--
--        // Calculate scroll progress within the SVG's visible area
--        // This makes the animation start when the SVG enters the viewport
--        // and finish when it leaves. You can adjust these values.
--        const scrollStart = svgRect.top + window.scrollY - window.innerHeight; // When SVG top aligns with bottom of viewport
--        const scrollEnd = svgRect.bottom + window.scrollY; // When SVG bottom aligns with top of viewport
-+        const scrollStart = svgRect.top + window.scrollY - window.innerHeight * 0.8;
-+        const scrollEnd = svgRect.bottom + window.scrollY - window.innerHeight * 0.2;
- 
-         const scrollProgress =
-           (window.scrollY - scrollStart) / (scrollEnd - scrollStart);
- 
--        // Clamp the progress between 0 and 1
-         const clampedProgress = Math.max(0, Math.min(1, scrollProgress));
- 
--        // Calculate the point along the path
-         const point = pathElement.getPointAtLength(
-           pathLength * clampedProgress
-         );
- 
--        // Update circle position
-         circleElement.setAttribute("cx", point.x);
-         circleElement.setAttribute("cy", point.y);
-+        
-+        // Show/hide circle based on progress
-+        circleElement.style.opacity = clampedProgress > 0 && clampedProgress < 1 ? "1" : "0";
-       }
-     };
- 
--    // Add scroll event listener
-     window.addEventListener("scroll", handleScroll);
-+    handleScroll(); // Initialize position
- 
--    // Clean up event listener on component unmount
-     return () => {
-       window.removeEventListener("scroll", handleScroll);
-     };
-   }, [pathLength]); // Re-run effect if pathLength changes
+import { useEffect, useRef, useState } from "react";
+import { useScrollAnimation } from './ScrollAnimationManager';
+
+export default function SecondComponent() {
+  const svgRef = useRef(null);
+  const circleRef = useRef(null);
+  const pathRef = useRef(null);
+  const [pathLength, setPathLength] = useState(0);
+
+  // Use the unified scroll animation system
+  useScrollAnimation(pathRef, circleRef, svgRef, 'second');
+
+  // Measure the path length once the component mounts
+  useEffect(() => {
+    if (pathRef.current) {
+      setPathLength(pathRef.current.getTotalLength());
+    }
+  }, []);
+
+  return (
+    <div className="mb-0">
+      <div className="flex w-10/12 mx-auto gap-8 mt-16   mb-0">
+        <div className="w-1/2 flex flex-col justify-center">
+          <h2 className="text-3xl font-bold mb-4">Second Component</h2>
+          <p className="text-lg text-gray-700 mb-4">
+            This is the second component with its own animated path. The circle
+            follows a different path as you scroll.
+          </p>
+          <p className="text-lg text-gray-700">
+            Notice how the animation is synchronized with the scroll position,
+            creating a smooth and engaging user experience.
+          </p>
+        </div>
+        <div className="w-1/2 flex justify-center items-center">
+          <svg
+            width="160"
+            height="510"
+            viewBox="0 0 160 510"
+            xmlns="http://www.w3.org/2000/svg"
+            ref={svgRef}
+          >
+            {/* Main path with rounded corner */}
+            <path
+              d="M10,10 L90,10 A60,60 0 0 1 150,70 L150,500"
+              stroke="black"
+              strokeWidth="1"
+              fill="none"
+              ref={pathRef}
+            />
+
+            {/* Circle positioned above the line (initially at the start point) */}
+            <circle cx="10" cy="10" r="6" fill="black" ref={circleRef} style={{opacity: 0}} />
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -1,56 +1,46 @@
-@@ .. @@
- export default function ThirdComponent() {
-   const pathRef = useRef(null);
-   const circleRef = useRef(null);
-   const svgContainerRef = useRef(null);
-   const [pathLength, setPathLength] = useState(0);
- 
-   useEffect(() => {
-     if (pathRef.current) {
-       setPathLength(pathRef.current.getTotalLength());
-     }
-   }, []);
- 
-   useEffect(() => {
-     const handleScroll = () => {
-       if (!pathRef.current || !circleRef.current || !svgContainerRef.current)
-         return;
- 
-      // Get SecondComponent element to find its bottom
-      const secondComp = document.querySelector('[data-component="second"]');
-      if (!secondComp) return;
+import { useEffect, useRef, useState } from "react";
+import imagew from "../assets/662f014c68d91cb1dc3cced7_throughput-1-p-800.png";
+import { useScrollAnimation } from './ScrollAnimationManager';
 
-      const secondRect = secondComp.getBoundingClientRect();
-      const secondBottomAbs = window.scrollY + secondRect.bottom;
+export default function ThirdComponent() {
+  const pathRef = useRef(null);
+  const circleRef = useRef(null);
+  const svgContainerRef = useRef(null);
+  const [pathLength, setPathLength] = useState(0);
 
-       const rect = svgContainerRef.current.getBoundingClientRect();
-      const scrollStart = secondBottomAbs - 50; // Start animation 50px before SecondComponent ends
-      const scrollEnd = rect.bottom + window.scrollY - window.innerHeight * 0.2;
- 
-       const progress =
-         (window.scrollY - scrollStart) / (scrollEnd - scrollStart);
-       const clamped = Math.max(0, Math.min(1, progress));
- 
-       const point = pathRef.current.getPointAtLength(pathLength * clamped);
-       circleRef.current.setAttribute("cx", point.x);
-       circleRef.current.setAttribute("cy", point.y);
-      
-      // Show/hide circle based on progress
-      circleRef.current.style.opacity = clamped > 0 && clamped < 1 ? "1" : "0";
-     };
- 
-     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Initialize position
-     return () => window.removeEventListener("scroll", handleScroll);
-   }, [pathLength]);
- 
-   return (
+  // Use the unified scroll animation system
+  useScrollAnimation(pathRef, circleRef, svgContainerRef, 'third');
+
+  useEffect(() => {
+    if (pathRef.current) {
+      setPathLength(pathRef.current.getTotalLength());
+    }
+  }, []);
+
+  return (
     <div className="w-full mt-0 pb-0" id="thirdComponent">
-       <div
-         className="w-10/12 mx-auto gap-8 mt-16 p-2 pb-0"
-         ref={svgContainerRef}
-       >
+      <div
+        className="w-10/12 mx-auto gap-8 mt-16 p-2 pb-0"
+        ref={svgContainerRef}
+      >
+        <div className="relative">
+          <svg
+            width="100%"
+            height="400"
+            viewBox="0 0 800 400"
+            className="absolute top-0 left-0 z-10"
+          >
+            <path
+              d="M50,200 Q200,50 400,200 T750,200"
+              stroke="black"
+              strokeWidth="2"
+              fill="none"
+              ref={pathRef}
+            />
+            <circle ref={circleRef} r="6" fill="black" cx="1" cy="0" style={{opacity: 0}} />
+          </svg>
+        </div>
       </div>
     </div>
-   );
- }
+  );
+}

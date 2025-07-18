@@ -1,35 +1,50 @@
-@@ .. @@
-   useEffect(() => {
-     const handleScroll = () => {
-       if (!pathRef.current || !circleRef.current || !svgContainerRef.current)
-         return;
- 
-+      // Get EightComponent element to find its bottom
-+      const eighthComp = document.querySelector('[data-component="eighth"]');
-+      if (!eighthComp) return;
-+
-+      const eighthRect = eighthComp.getBoundingClientRect();
-+      const eighthBottomAbs = window.scrollY + eighthRect.bottom;
-+
-       const rect = svgContainerRef.current.getBoundingClientRect();
--      const scrollStart = rect.top + window.scrollY - window.innerHeight;
--      const scrollEnd = rect.bottom + window.scrollY;
-+      const scrollStart = eighthBottomAbs - 50;
-+      const scrollEnd = rect.bottom + window.scrollY - window.innerHeight * 0.2;
- 
-       const progress =
-         (window.scrollY - scrollStart) / (scrollEnd - scrollStart);
-       const clamped = Math.max(0, Math.min(1, progress));
- 
-       const point = pathRef.current.getPointAtLength(pathLength * clamped);
-       circleRef.current.setAttribute("cx", point.x);
-       circleRef.current.setAttribute("cy", point.y);
-+      
-+      // Show/hide circle based on progress
-+      circleRef.current.style.opacity = clamped > 0 && clamped < 1 ? "1" : "0";
-     };
- 
-     window.addEventListener("scroll", handleScroll);
-+    handleScroll(); // Initialize position
-     return () => window.removeEventListener("scroll", handleScroll);
-   }, [pathLength]);
+import { useEffect, useRef, useState } from "react";
+import imagew from "../assets/seven.png";
+import { useScrollAnimation } from './ScrollAnimationManager';
+
+export default function SevenComponent() {
+  const pathRef = useRef(null);
+  const circleRef = useRef(null);
+  const svgContainerRef = useRef(null);
+  const [pathLength, setPathLength] = useState(0);
+
+  // Use the unified scroll animation system
+  useScrollAnimation(pathRef, circleRef, svgContainerRef, 'curve');
+
+  useEffect(() => {
+    if (pathRef.current) {
+      setPathLength(pathRef.current.getTotalLength());
+    }
+  }, []);
+
+  return (
+    <div className="w-full mt-0 pb-0">
+      <div
+        className="relative w-full h-screen bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: `url(${imagew})`,
+        }}
+      >
+        <div
+          ref={svgContainerRef}
+          className="absolute inset-0 w-full h-full"
+        >
+          <svg
+            className="w-full h-full"
+            viewBox="0 0 1920 1080"
+            preserveAspectRatio="xMidYMid slice"
+          >
+            <path
+              d="M960 100 Q1200 300 1400 540 Q1600 780 1820 980"
+              stroke="black"
+              strokeWidth="3"
+              fill="none"
+              ref={pathRef}
+            />
+            <circle ref={circleRef} r="6" fill="black" cx="1" cy="0" style={{opacity: 0}} />
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -1,35 +1,64 @@
-@@ .. @@
-   useEffect(() => {
-     const handleScroll = () => {
-       if (!pathRef.current || !circleRef.current || !svgContainerRef.current)
-         return;
- 
-+      // Get SeventhComponent element to find its bottom
-+      const seventhComp = document.querySelector('[data-component="seventh"]');
-+      if (!seventhComp) return;
-+
-+      const seventhRect = seventhComp.getBoundingClientRect();
-+      const seventhBottomAbs = window.scrollY + seventhRect.bottom;
-+
-       const rect = svgContainerRef.current.getBoundingClientRect();
--      const scrollStart = rect.top + window.scrollY - window.innerHeight;
--      const scrollEnd = rect.bottom + window.scrollY;
-+      const scrollStart = seventhBottomAbs - 50;
-+      const scrollEnd = rect.bottom + window.scrollY - window.innerHeight * 0.2;
- 
-       const progress =
-         (window.scrollY - scrollStart) / (scrollEnd - scrollStart);
-       const clamped = Math.max(0, Math.min(1, progress));
- 
-       const point = pathRef.current.getPointAtLength(pathLength * clamped);
-       circleRef.current.setAttribute("cx", point.x);
-       circleRef.current.setAttribute("cy", point.y);
-+      
-+      // Show/hide circle based on progress
-+      circleRef.current.style.opacity = clamped > 0 && clamped < 1 ? "1" : "0";
-     };
- 
-     window.addEventListener("scroll", handleScroll);
-+    handleScroll(); // Initialize position
-     return () => window.removeEventListener("scroll", handleScroll);
-   }, [pathLength]);
+import { useEffect, useRef, useState } from "react";
+import imagew from "../assets/component5.png";
+import { useScrollAnimation } from './ScrollAnimationManager';
+
+export default function EightComponent() {
+  const pathRef = useRef(null);
+  const circleRef = useRef(null);
+  const svgContainerRef = useRef(null);
+  const [pathLength, setPathLength] = useState(0);
+
+  // Use the unified scroll animation system
+  useScrollAnimation(pathRef, circleRef, svgContainerRef, 'eighth');
+
+  useEffect(() => {
+    if (pathRef.current) {
+      setPathLength(pathRef.current.getTotalLength());
+    }
+  }, []);
+
+  return (
+    <div className="w-full mt-0 mb-0 pb-0 pt-0">
+      <div className="w-10/12 mx-auto mt-0 mb-0 pb-0 pt-0">
+        <div className="flex flex-col lg:flex-row items-center justify-between">
+          <div className="w-full lg:w-1/2 mb-8 lg:mb-0">
+            <img
+              src={imagew}
+              alt="Component 5"
+              className="w-full h-auto object-cover"
+            />
+          </div>
+          <div className="w-full lg:w-1/2 lg:pl-8">
+            <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+              Eighth Component
+            </h2>
+            <p className="text-lg text-gray-600 mb-6">
+              This is the eighth component with some descriptive text about its
+              functionality and purpose.
+            </p>
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Learn More
+            </button>
+          </div>
+        </div>
+        <div className="mt-8" ref={svgContainerRef}>
+          <svg
+            width="100%"
+            height="200"
+            viewBox="0 0 800 200"
+            className="border"
+          >
+            <path
+              d="M 50 100 Q 200 50 400 100 T 750 100"
+              stroke="black"
+              strokeWidth="2"
+              fill="none"
+              ref={pathRef}
+            />
+            <circle ref={circleRef} r="6" fill="black" cx="1" cy="0" style={{opacity: 0}} />
+          </svg>
+        </div>
+      </div>
+    </div>
+  );
+}
